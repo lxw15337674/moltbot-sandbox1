@@ -19,6 +19,11 @@ export interface MoltbotEnv {
   ANTHROPIC_API_KEY?: string;
   ANTHROPIC_BASE_URL?: string;
   OPENAI_API_KEY?: string;
+  // Custom OpenAI-compatible provider configuration
+  CUSTOM_OPENAI_BASE_URL?: string; // OpenAI-compatible base URL (e.g., https://example.com/v1)
+  CUSTOM_OPENAI_API_KEY?: string; // API key/token for the custom OpenAI-compatible provider
+  CUSTOM_OPENAI_MODEL?: string; // Model ID to set as default (e.g., gpt-5.3-codex)
+  CUSTOM_OPENAI_PROVIDER_NAME?: string; // Optional provider name in OpenClaw config
   MOLTBOT_GATEWAY_TOKEN?: string; // Gateway token (mapped to OPENCLAW_GATEWAY_TOKEN for container)
   DEV_MODE?: string; // Set to 'true' for local dev (skips CF Access auth + openclaw device pairing)
   E2E_TEST_MODE?: string; // Set to 'true' for E2E tests (skips CF Access auth but keeps device pairing)

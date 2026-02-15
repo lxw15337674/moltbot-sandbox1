@@ -23,6 +23,11 @@ export function buildEnvVars(env: MoltbotEnv): Record<string, string> {
   // Direct provider keys
   if (env.ANTHROPIC_API_KEY) envVars.ANTHROPIC_API_KEY = env.ANTHROPIC_API_KEY;
   if (env.OPENAI_API_KEY) envVars.OPENAI_API_KEY = env.OPENAI_API_KEY;
+  if (env.CUSTOM_OPENAI_BASE_URL) envVars.CUSTOM_OPENAI_BASE_URL = env.CUSTOM_OPENAI_BASE_URL;
+  if (env.CUSTOM_OPENAI_API_KEY) envVars.CUSTOM_OPENAI_API_KEY = env.CUSTOM_OPENAI_API_KEY;
+  if (env.CUSTOM_OPENAI_MODEL) envVars.CUSTOM_OPENAI_MODEL = env.CUSTOM_OPENAI_MODEL;
+  if (env.CUSTOM_OPENAI_PROVIDER_NAME)
+    envVars.CUSTOM_OPENAI_PROVIDER_NAME = env.CUSTOM_OPENAI_PROVIDER_NAME;
 
   // Legacy AI Gateway support: AI_GATEWAY_BASE_URL + AI_GATEWAY_API_KEY
   // When set, these override direct keys for backward compatibility

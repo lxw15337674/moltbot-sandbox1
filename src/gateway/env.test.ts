@@ -21,6 +21,20 @@ describe('buildEnvVars', () => {
     expect(result.OPENAI_API_KEY).toBe('sk-openai-key');
   });
 
+  it('passes custom OpenAI-compatible provider env vars', () => {
+    const env = createMockEnv({
+      CUSTOM_OPENAI_BASE_URL: 'https://example.com/v1',
+      CUSTOM_OPENAI_API_KEY: 'custom-key',
+      CUSTOM_OPENAI_MODEL: 'gpt-5.3-codex',
+      CUSTOM_OPENAI_PROVIDER_NAME: 'codex-qe',
+    });
+    const result = buildEnvVars(env);
+    expect(result.CUSTOM_OPENAI_BASE_URL).toBe('https://example.com/v1');
+    expect(result.CUSTOM_OPENAI_API_KEY).toBe('custom-key');
+    expect(result.CUSTOM_OPENAI_MODEL).toBe('gpt-5.3-codex');
+    expect(result.CUSTOM_OPENAI_PROVIDER_NAME).toBe('codex-qe');
+  });
+
   // Cloudflare AI Gateway (new native provider)
   it('passes Cloudflare AI Gateway env vars', () => {
     const env = createMockEnv({

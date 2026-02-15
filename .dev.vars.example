@@ -5,6 +5,12 @@
 ANTHROPIC_API_KEY=sk-ant-...
 # OPENAI_API_KEY=sk-...
 
+# Custom OpenAI-compatible provider (alternative to direct provider keys)
+# CUSTOM_OPENAI_BASE_URL=https://your-openai-compatible-endpoint
+# CUSTOM_OPENAI_API_KEY=your-api-key-or-token
+# CUSTOM_OPENAI_MODEL=gpt-5.3-codex
+# CUSTOM_OPENAI_PROVIDER_NAME=custom-openai
+
 # Cloudflare AI Gateway (alternative to direct provider keys)
 # CLOUDFLARE_AI_GATEWAY_API_KEY=your-provider-api-key
 # CF_AI_GATEWAY_ACCOUNT_ID=your-account-id

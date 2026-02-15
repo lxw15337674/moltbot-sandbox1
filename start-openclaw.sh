@@ -114,6 +114,8 @@ if [ ! -f "$CONFIG_FILE" ]; then
         AUTH_ARGS="--auth-choice apiKey --anthropic-api-key $ANTHROPIC_API_KEY"
     elif [ -n "$OPENAI_API_KEY" ]; then
         AUTH_ARGS="--auth-choice openai-api-key --openai-api-key $OPENAI_API_KEY"
+    elif [ -n "$CUSTOM_OPENAI_API_KEY" ]; then
+        AUTH_ARGS="--auth-choice openai-api-key --openai-api-key $CUSTOM_OPENAI_API_KEY"
     fi
 
     openclaw onboard --non-interactive --accept-risk \
@@ -216,6 +218,34 @@ if (process.env.CF_AI_GATEWAY_MODEL) {
         console.log('AI Gateway model override: provider=' + providerName + ' model=' + modelId + ' via ' + baseUrl);
     } else {
         console.warn('CF_AI_GATEWAY_MODEL set but missing required config (account ID, gateway ID, or API key)');
+    }
+}
+
+// Custom OpenAI-compatible provider override:
+// Requires CUSTOM_OPENAI_BASE_URL + CUSTOM_OPENAI_API_KEY + CUSTOM_OPENAI_MODEL.
+// Sets a provider entry and uses it as the default model.
+const customBaseUrl = process.env.CUSTOM_OPENAI_BASE_URL;
+const customApiKey = process.env.CUSTOM_OPENAI_API_KEY;
+const customModel = process.env.CUSTOM_OPENAI_MODEL;
+const customProviderName = process.env.CUSTOM_OPENAI_PROVIDER_NAME || 'custom-openai';
+
+if (customBaseUrl || customApiKey || customModel) {
+    if (customBaseUrl && customApiKey && customModel) {
+        const normalizedBaseUrl = customBaseUrl.replace(/\/+$/, '');
+        config.models = config.models || {};
+        config.models.providers = config.models.providers || {};
+        config.models.providers[customProviderName] = {
+            baseUrl: normalizedBaseUrl,
+            apiKey: customApiKey,
+            api: 'openai-completions',
+            models: [{ id: customModel, name: customModel, contextWindow: 131072, maxTokens: 8192 }],
+        };
+        config.agents = config.agents || {};
+        config.agents.defaults = config.agents.defaults || {};
+        config.agents.defaults.model = { primary: customProviderName + '/' + customModel };
+        console.log('Custom OpenAI provider override: provider=' + customProviderName + ' model=' + customModel + ' via ' + normalizedBaseUrl);
+    } else {
+        console.warn('CUSTOM_OPENAI_* is partially set. Required: CUSTOM_OPENAI_BASE_URL + CUSTOM_OPENAI_API_KEY + CUSTOM_OPENAI_MODEL');
     }
 }
 
